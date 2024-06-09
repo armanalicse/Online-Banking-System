@@ -1,0 +1,126 @@
+import java.util.*;
+abstract class Bank{
+    public String Name = "BANK OF BARODA";
+    public String IFSC = "BARB0AMETHI";
+
+    public void bankdetail()
+    {
+        System.out.println("BANK NAME : "+Name+"\nIFSC CODE - BARB0AMETHI\n Branch - AMETHI");
+    }
+    abstract void Deposit();
+    abstract void Withdraw();
+    abstract void checkbalance();
+}
+class bankservice extends Bank{ //inheritance
+    private double balance = 55800;
+    private int pwd = 2005;
+    public double money;
+
+    @Override
+    public void Deposit()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter ATM Pin : ");
+        pwd = sc.nextInt();
+        if(pwd==2005)
+        {
+            System.out.print("Enter Amount : ");
+            money = sc.nextDouble();
+            balance =balance+money;
+            System.out.print("Deposited Amount : "+money);
+            System.out.print("\nTotal Balance : "+balance);
+        }
+        else
+        {
+            System.out.println("Incorrect Password");
+        }
+    }
+    @Override
+    void Withdraw()
+    {
+         Scanner sc = new Scanner(System.in);
+        System.out.print("Enter ATM Pin : ");
+        pwd = sc.nextInt();
+        if(pwd==2005)
+        {
+            if(balance==0.0)
+            {
+                System.out.println("NOT SUFFICIENT BALANCE !");
+                System.out.println("Total Balance : "+balance);
+            }
+            else {
+                System.out.print("Enter Amount : ");
+                money = sc.nextDouble();
+                if(money<500)
+                {
+                    System.out.println("Minimum Withdrawal : 500Rs");
+                }
+                else if(balance<money)
+                {
+                    System.out.println("Not Sufficient Balance");
+                    System.out.println("Total Balance : "+balance);
+                }
+                else {
+                   Random rnd = new Random();
+                   int txn = rnd.nextInt(10000000,1000000000);
+                    balance = balance - money;
+                    System.out.print("Withdrawal Amount : " + money);
+                    System.out.print("\nTotal Balance : " + balance);
+                   System.out.println("\nTransaction id : "+txn);
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Incorrect Password");
+        }
+    }
+    @Override
+    void checkbalance()
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter ATM Pin :");
+        pwd = sc.nextInt();
+        if(pwd ==2005)
+        {
+            System.out.print("Available Balance : "+balance);
+        }
+        else {
+            System.out.println("Incorrect Password");
+        }
+    }
+    void exit()
+    {
+        System.out.println("THANK YOU FOR USING Bank of Baroda !");
+    }
+}
+public class miniATM {
+    public static void main(String[] args) {
+        bankservice obj = new bankservice();
+        obj.bankdetail();
+        Scanner sc = new Scanner(System.in);
+        while(true)
+        {
+            System.out.println("\n1.Deposit\n2.Withdraw\n3.CheckBalance\n4.Exit");
+            System.out.print("Enter Choice : ");
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    obj.Deposit();
+                    break;
+                case 2:
+                    obj.Withdraw();
+                    break;
+                case 3:
+                    obj.checkbalance();
+                    break;
+                case 4 :
+                          obj.exit();
+                        System.exit(0);
+                        break;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+}
